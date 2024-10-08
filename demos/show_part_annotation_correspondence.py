@@ -15,9 +15,11 @@ sys.path.append("..")
 from models.correspondence_functions import (overlay_segment, resize)
 from models.aff_corrs import AffCorrs_V1
 
-# User-defined constants
-SUPPORT_DIR = "../affordance_database/usb/"
-TARGET_IMAGE_PATH = "./images/demo_affordance/eth.jpg"
+# # User-defined constants
+# SUPPORT_DIR = "../affordance_database/usb/"
+# TARGET_IMAGE_PATH = "./images/demo_affordance/eth.jpg"
+SUPPORT_DIR = "../affordance_database/mug_multimask"
+TARGET_IMAGE_PATH = "./images/demo_affordance/mug3.jpeg"
 
 # Other constants
 PATH_TO_CONFIG  = "../config/default_config.yaml"
@@ -55,9 +57,11 @@ def viz_correspondence(im_a, im_b, parts_a, parts_b):
         corr_img = overlay_segment(corr_img, part_out_i,
                                   COLORS[i], alpha=0.3)
 
-    _fig, ax = plt.subplots(1,2)
+    fig, ax = plt.subplots(1, 2)
     ax[0].imshow(quer_img)
+    ax[0].set_title('Support', fontsize=16)
     ax[1].imshow(corr_img)
+    ax[1].set_title('Target', fontsize=16)
     plt.show()
 
 if __name__ == "__main__":
@@ -77,8 +81,10 @@ if __name__ == "__main__":
         ## Produce correspondence
         model.set_source(Image.fromarray(rgb_a), parts, affordances)
         model.generate_source_clusters()
+
         model.set_target(Image.fromarray(rgb_b))
         model.generate_target_clusters()
+
         parts_out, aff_out = model.find_correspondences()
 
         ## Display correspondence

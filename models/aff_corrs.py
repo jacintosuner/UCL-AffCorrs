@@ -107,7 +107,7 @@ class AffCorrs_V1(object):
         self.src_desc_image = self.src_descs.numpy().reshape(nps[0],nps[1],-1)
         self.K_queries = []
         for part in self.src_query_parts:
-            q_a = resize(part, nps).astype(np.bool)
+            q_a = resize(part, nps).astype(bool)
             # extract Source K-means descriptors
             query_desc = self.src_desc_image[q_a]
             K_query, labels = get_K_means_v2([query_desc[None,None,...]], 1, 
@@ -232,7 +232,7 @@ class AffCorrs_V1(object):
             # Calculate probability that each cluster in 
             # target image is matching to the part mask in
             # the source image.
-            part_mask = resize(img_as_bool(part), src_nps).astype(np.bool)
+            part_mask = resize(img_as_bool(part), src_nps).astype(bool)
             P_tq = P_ts_img[:,part_mask]
             P_tq = P_tq.sum(-1) # [K2,]
 
